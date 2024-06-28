@@ -98,33 +98,18 @@ vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' }
 -- Keybinds to make split navigation easier.
 --  Use CTRL+<hjkl> to switch between windows
 -- This function will make a new window if ctrl-hjkl are pressed if theres no window yet
-function WinMove(key)
-  local curwin = vim.fn.winnr()
-  vim.cmd('wincmd ' .. key)
-  if curwin == vim.fn.winnr() then
-    if key == 'l' or key == 'h' then
-      vim.cmd 'wincmd v'
-    else
-      vim.cmd 'wincmd s'
-    end
-    vim.cmd('wincmd ' .. key)
-  end
-end
-
-vim.keymap.set('n', '<C-h>', '<cmd>lua WinMove("h")<CR>', { noremap = true, silent = true })
-vim.keymap.set('n', '<C-j>', '<cmd>lua WinMove("j")<CR>', { noremap = true, silent = true })
-vim.keymap.set('n', '<C-k>', '<cmd>lua WinMove("k")<CR>', { noremap = true, silent = true })
-vim.keymap.set('n', '<C-l>', '<cmd>lua WinMove("l")<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>vs', ':vs<enter>', { desc = 'Split vertically' })
+vim.keymap.set('n', '<leader>hs', ':split<enter>', { desc = 'Split horizontally' })
+vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
+vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
+vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
+vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
 --  other ways to exit insert mode
 
 vim.keymap.set('i', 'jk', '<Esc>', { noremap = true, silent = true })
 vim.keymap.set('i', 'kj', '<Esc>', { noremap = true, silent = true })
 --  See `:help wincmd` for a list of all window commands
---vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
---vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
---vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
---vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
