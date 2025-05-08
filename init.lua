@@ -200,14 +200,6 @@ require('lazy').setup({
     config = function() -- This is the function that runs, AFTER loading
       require('which-key').setup()
 
-      -- Document existing key chains
-      require('which-key').register {
-        ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
-        ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
-        ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
-        ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
-        ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
-      }
     end,
   },
 
@@ -668,7 +660,10 @@ require('lazy').setup({
       vim.cmd.hi 'Comment gui=none'
     end,
   },
-
+  {
+    "nvim-tree/nvim-web-devicons",
+    opts = { default = true },
+  },
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
 
@@ -695,7 +690,7 @@ require('lazy').setup({
       --  and try some other statusline plugin
       local statusline = require 'mini.statusline'
       -- set use_icons to true if you have a Nerd Font
-      statusline.setup { use_icons = vim.g.have_nerd_font }
+      --statusline.setup { use_icons = vim.g.have_nerd_font }
 
       -- You can configure sections in the statusline by overriding their
       -- default behavior. For example, here we set the section for
@@ -755,6 +750,28 @@ require('lazy').setup({
       require('42header').setup(opts)
     end,
   },
+  {
+      "MoulatiMehdi/42norm.nvim",
+      config = function()
+          local norm = require("42norm")
+
+          norm.setup({
+              header_on_save = true,
+              format_on_save = true,
+              liner_on_change = true,
+          })
+          -- create your commands
+          vim.api.nvim_create_user_command("Norminette", function()
+              norm.check_norms()
+          end, {})
+          vim.api.nvim_create_user_command("Format", function()
+              norm.format()
+          end, {})
+          vim.api.nvim_create_user_command("Stdheader", function()
+              norm.stdheader()
+          end, {})
+      end,
+  },
 
   -- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
@@ -778,7 +795,8 @@ require('lazy').setup({
   ui = {
     -- If you have a Nerd Font, set icons to an empty table which will use the
     -- default lazy.nvim defined Nerd Font icons otherwise define a unicode icons table
-    icons = vim.g.have_nerd_font and {} or {
+    icons =-- vim.g.have_nerd_font and {} or
+      {
       cmd = '⌘',
       config = '🛠',
       event = '📅',
@@ -795,6 +813,7 @@ require('lazy').setup({
     },
   },
 })
+
 
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
